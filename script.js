@@ -1,97 +1,150 @@
 
-let Table = document.createElement('table')
-let HeaderRow = document.createElement('tr')
-let BodyAddress = document.getElementById("app")
 
-let HeaderData = ['Sino', 'name', 'age', 'marks', 'delete', 'edit']
+var x=1;
+var y=2;
+var count=3;
+function DefaultCode(){
+    let gridNo=Number(prompt("Enter the Number:"))
+    let tableTag=document.createElement("table")
+    let bodyTag=document.getElementsByTagName("body")[0]
+    for(var i=0;i<gridNo;i+=1)
+    {
+        let tableRow=document.createElement("tr")
+        for(var j=0;j<gridNo;j+=1)
+        {
+            let tableData=document.createElement("td")
+            let imageTag=document.createElement("img")
+            imageTag.setAttribute("src","http://127.0.0.1:5500/avatar.jpg")
+            imageTag.setAttribute("id",String(i)+String(j))
+            if(i==x && j==y)
+            {
+                imageTag.setAttribute("style","display:block")
 
-for (let i = 0; i < HeaderData.length; i++) {
-    let HeadTag = document.createElement("th")
-    HeadTag.textContent = HeaderData[i]
-    HeaderRow.appendChild(HeadTag)
-}
-
-Table.appendChild(HeaderRow)
-BodyAddress.appendChild(Table)
-
-let sino = 0
-
-// Add button
-let addButton = document.createElement("button")
-addButton.textContent = "add"
-BodyAddress.appendChild(addButton)
-
-addButton.addEventListener("click", function () {
-
-    let Name = prompt("Enter Name")
-    if (Name === null || Name.trim() === "") return
-
-    let Age = prompt("Enter the age")
-    if (Age === null || Age.trim() === "" ||
-        isNaN(Age) || Number(Age) < 0) return
-
-    let Marks = prompt("Enter the marks")
-    if (Marks === null || Marks.trim() === "" ||
-        isNaN(Marks) || Number(Marks) < 0 ||
-        Number(Marks) > 100) return
-
-    let tableRow = document.createElement('tr')
-
-    let Data = [++sino, Name, Number(Age), Number(Marks)]
-
-    for (let i = 0; i < Data.length; i++) {
-        let td = document.createElement("td")
-        td.textContent = Data[i]
-        tableRow.appendChild(td)
-    }
-
-    // Delete button
-    let deleteButton = document.createElement("button")
-    deleteButton.textContent = "delete"
-
-    deleteButton.addEventListener("click", function () {
-        tableRow.remove()
-
-        let rows = Table.querySelectorAll("tr")
-
-        for (let i = 1; i < rows.length; i++) {
-            rows[i].children[0].textContent = i
+            }
+            else
+            {
+                imageTag.setAttribute("style","display:none")
+            }
+            tableData.appendChild(imageTag)
+            tableRow.appendChild(tableData)
         }
+        tableTag.appendChild(tableRow)
+    }
+    bodyTag.appendChild(tableTag)
+    // left button
 
-        sino = rows.length - 1
+    let countTag=document.createElement('p')
+    countTag.textContent="violations:" + count
+    bodyTag.appendChild(countTag)
+    let leftButton=document.createElement("button")
+    leftButton.textContent="left"
+    leftButton.addEventListener('click',function(){
+        if(y-1<0)
+        {
+            if(count<=1)
+            {
+            count=0;
+            countTag.textContent="Violations: " + count;
+            alert("Game over");
+            return;
+            }
+            count-=1;
+            countTag.textContent="violations:"+count;
+            return;
+        }
+        let oldIndexImage=document.getElementById(String(x)+String(y))
+        oldIndexImage.setAttribute("style","display:none")
+        y-=1; 
+        let newIndexImage=document.getElementById(String(x)+String(y))
+        newIndexImage.setAttribute("style","display:block")
     })
 
-    let deleteButtonTd = document.createElement("td")
-    deleteButtonTd.appendChild(deleteButton)
-    tableRow.appendChild(deleteButtonTd)
 
-    // Edit button
-    let editButton = document.createElement("button")
-    editButton.textContent = "edit"
-
-    editButton.addEventListener("click", function () {
-
-        let Name = prompt("Enter Name")
-        if (Name === null || Name.trim() === "") return
-
-        let Age = prompt("Enter the age")
-        if (Age === null || Age.trim() === "" ||
-            isNaN(Age) || Number(Age) < 0) return
-
-        let Marks = prompt("Enter the marks")
-        if (Marks === null || Marks.trim() === "" ||
-            isNaN(Marks) || Number(Marks) < 0 ||
-            Number(Marks) > 100) return
-
-        tableRow.children[1].textContent = Name
-        tableRow.children[2].textContent = Number(Age)
-        tableRow.children[3].textContent = Number(Marks)
+    // right button
+    let rightButton=document.createElement("button")
+    rightButton.textContent="right"
+    rightButton.addEventListener('click',function(){
+        if(y+1>=gridNo)
+        {
+            if(count<=1)
+            {
+                count=0;
+                countTag.textContent="violations:"+count;
+                alert("Game over");
+                return;
+            }
+            count-=1;
+            countTag.textContent=count;
+            return;
+        }
+        let oldIndexImage=document.getElementById(String(x)+String(y))
+        oldIndexImage.setAttribute("style","display:none")
+        y+=1
+        let newIndexImage=document.getElementById(String(x)+String(y))
+        newIndexImage.setAttribute("style","display:block")
     })
 
-    let editButtontd = document.createElement("td")
-    editButtontd.appendChild(editButton)
-    tableRow.appendChild(editButtontd)
 
-    // Add completed row to table
-    Table.appendChild(tableRow)
-})
+
+
+//top button
+    let topButton=document.createElement("button")
+    topButton.textContent="top"
+    topButton.addEventListener('click',function(){
+        if(x-1<0)
+        {
+            if(count<=1)
+            {
+
+                count=0;
+                countTag.textContent="violations:"+count;
+                alert("Game over");
+                return;
+            }
+            count-=1;
+            countTag.textContent=count;
+            return;
+        }
+        let oldIndexImage=document.getElementById(String(x)+String(y))
+        oldIndexImage.setAttribute("style","display:none")
+        x-=1
+        let newIndexImage=document.getElementById(String(x)+String(y))
+        newIndexImage.setAttribute("style","display:block")
+    })
+
+
+
+//bottom button
+    let bottomButton=document.createElement("button")
+    bottomButton.textContent="bottom"
+    bottomButton.addEventListener('click',function(){
+        if(y+1>=gridNo)
+        {
+            if(count<=1)
+            {
+
+                count=0;
+                countTag.textContent="violations:"+count;
+                alert("Game over");
+                return;
+            }
+            count-=1;
+            countTag.textContent=count;
+            return;
+        }
+        let oldIndexImage=document.getElementById(String(x)+String(y))
+        oldIndexImage.setAttribute("style","display:none")
+        x+=1
+        let newIndexImage=document.getElementById(String(x)+String(y))
+        newIndexImage.setAttribute("style","display:block")
+    })
+
+
+
+    bodyTag.appendChild(leftButton)
+    bodyTag.appendChild(rightButton)
+    bodyTag.appendChild(topButton)
+    bodyTag.appendChild(bottomButton)
+
+}
+DefaultCode();
